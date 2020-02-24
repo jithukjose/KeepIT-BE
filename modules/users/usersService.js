@@ -1,9 +1,9 @@
 var HttpStatus = require('http-status-codes')
 const userQueryBuilder = require('./usersQueryBulider')
 
-const getUsers = (req, res, next) => {
+const getUsers = async (req, res, next) => {
   try {
-    const getUsersResponse = userQueryBuilder.getUsers(req)
+    const getUsersResponse = await userQueryBuilder.getUsers(req)
     res.status(HttpStatus.OK).send(getUsersResponse)
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
@@ -15,9 +15,10 @@ const getUsers = (req, res, next) => {
   }
 }
 
-const postUsers = (req, res, next) => {
+const postUsers = async (req, res, next) => {
   try {
-    const postUsersResponse = userQueryBuilder.postUsers(req)
+    const postUsersResponse = await userQueryBuilder.postUsers(req)
+    console.log(postUsersResponse)
     res.status(HttpStatus.CREATED).send(postUsersResponse)
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
@@ -29,9 +30,9 @@ const postUsers = (req, res, next) => {
   }
 }
 
-const getUsersWithId = (req, res) => {
+const getUsersWithId = async (req, res) => {
   try {
-    const getSingleUser = userQueryBuilder.getUsersWithId(req)
+    const getSingleUser = await userQueryBuilder.getUsersWithId(req)
     res.status(HttpStatus.ACCEPTED).send(getSingleUser)
   } catch (error) {
     console.log(error)
@@ -44,10 +45,10 @@ const getUsersWithId = (req, res) => {
   }
 }
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
   try {
     console.log('service')
-    const deleteList = userQueryBuilder.deleteUser(req)
+    const deleteList = await userQueryBuilder.deleteUser(req)
     res.status(HttpStatus.OK).send(deleteList)
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({

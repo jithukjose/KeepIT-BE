@@ -6,9 +6,9 @@ const todoQueryBuilder = require('./todoQueryBulider')
 //   res.send(todo)
 // }
 
-const getTodos = (req, res, next) => {
+const getTodos = async (req, res, next) => {
   try {
-    const getTodosResponse = todoQueryBuilder.getTodos(req)
+    const getTodosResponse = await todoQueryBuilder.getTodos(req)
     res.status(HttpStatus.OK).send(getTodosResponse)
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
@@ -20,9 +20,9 @@ const getTodos = (req, res, next) => {
   }
 }
 
-const postTodos = (req, res, next) => {
+const postTodos = async (req, res, next) => {
   try {
-    const postTodoResponse = todoQueryBuilder.postTodos(req)
+    const postTodoResponse = await todoQueryBuilder.postTodos(req)
     res.status(HttpStatus.CREATED).send(postTodoResponse)
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
@@ -34,9 +34,9 @@ const postTodos = (req, res, next) => {
   }
 }
 
-const getTodosWithId = (req, res) => {
+const getTodosWithId = async (req, res) => {
   try {
-    const getSingleTodo = todoQueryBuilder.getTodosWithId(req)
+    const getSingleTodo = await todoQueryBuilder.getTodosWithId(req)
     res.status(HttpStatus.ACCEPTED).send(getSingleTodo)
   } catch (error) {
     console.log(error)
@@ -49,9 +49,9 @@ const getTodosWithId = (req, res) => {
   }
 }
 
-const deleteTodo = (req, res) => {
+const deleteTodo = async (req, res) => {
   try {
-    const deleteList = todoQueryBuilder.deleteTodo(req)
+    const deleteList = await todoQueryBuilder.deleteTodo(req)
     res.status(HttpStatus.OK).send(deleteList)
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({

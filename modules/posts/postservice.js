@@ -1,9 +1,9 @@
 var HttpStatus = require('http-status-codes')
 const postQueryBuilder = require('./postQueryBulider')
 
-const getPosts = (req, res, next) => {
+const getPosts = async (req, res, next) => {
   try {
-    const getPostsResponse = postQueryBuilder.getPosts(req)
+    const getPostsResponse = await postQueryBuilder.getPosts(req)
     res.status(HttpStatus.OK).send(getPostsResponse)
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
@@ -15,23 +15,23 @@ const getPosts = (req, res, next) => {
   }
 }
 
-const postPosts = (req, res, next) => {
+const postPosts = async (req, res, next) => {
   try {
-    const postPostsResponse = postQueryBuilder.postPosts(req)
+    const postPostsResponse = await postQueryBuilder.postPosts(req)
     res.status(HttpStatus.CREATED).send(postPostsResponse)
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
       error: {
-        message: ErrorEvent.message,
+        message: error.message,
         code: HttpStatus.INTERNAL_SERVER_ERROR
       }
     })
   }
 }
 
-const getPostsWithId = (req, res) => {
+const getPostsWithId = async (req, res) => {
   try {
-    const getSinglepost = postQueryBuilder.getPostsWithId(req)
+    const getSinglepost = await postQueryBuilder.getPostsWithId(req)
     res.status(HttpStatus.ACCEPTED).send(getSinglepost)
   } catch (error) {
     console.log(error)
@@ -42,6 +42,7 @@ const getPostsWithId = (req, res) => {
       }
     })
   }
+  s
 }
 
 const deletePosts = (req, res) => {
