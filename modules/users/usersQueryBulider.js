@@ -19,7 +19,7 @@ const postUsers = async (req) => {
 const getUsersWithId = (req) => {
   return DB.users.findByPk(req.params.userId).then((result) => {
     if (!result) {
-      console.log('Not found!')
+      console.log('Not found!!!!')
     } else {
       return result
     }
