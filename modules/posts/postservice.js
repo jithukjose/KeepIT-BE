@@ -15,7 +15,7 @@ const getPosts = async (req, res, next) => {
   }
 }
 
-const postPosts = async (req, res, next) => {
+const postPostdata = async (req, res, next) => {
   try {
     const postPostsResponse = await postQueryBuilder.postPosts(req)
     res.status(HttpStatus.CREATED).send(postPostsResponse)
@@ -34,7 +34,6 @@ const getPostsWithId = async (req, res) => {
     const getSinglepost = await postQueryBuilder.getPostsWithId(req)
     res.status(HttpStatus.ACCEPTED).send(getSinglepost)
   } catch (error) {
-    console.log(error)
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
       error: {
         message: error.message,
@@ -47,7 +46,6 @@ const getPostsWithId = async (req, res) => {
 
 const deletePosts = (req, res) => {
   try {
-    console.log('service')
     const deleteList = postQueryBuilder.deletePosts(req)
     res.status(HttpStatus.OK).send(deleteList)
   } catch (error) {
@@ -62,7 +60,7 @@ const deletePosts = (req, res) => {
 
 module.exports = {
   getPosts,
-  postPosts,
+  postPostdata,
   getPostsWithId,
   deletePosts
 }

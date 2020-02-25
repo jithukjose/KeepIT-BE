@@ -17,13 +17,14 @@ const getUsers = async (req, res, next) => {
 
 const postUsers = async (req, res, next) => {
   try {
+    console.log('req.body', req.body)
     const postUsersResponse = await userQueryBuilder.postUsers(req)
     console.log(postUsersResponse)
     res.status(HttpStatus.CREATED).send(postUsersResponse)
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
       error: {
-        message: ErrorEvent.message,
+        message: error.message,
         code: HttpStatus.INTERNAL_SERVER_ERROR
       }
     })

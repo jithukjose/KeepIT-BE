@@ -14,40 +14,23 @@ const postTodos = async (req) => {
   return todo
 }
 
-// const getTodosWithId = (req) => {
-//   for (let i = 0; i < todos.length; i++) {
-//     if (req.params.userId == todos[i].id) {
-//       return todos[i]
-//     }
-//   }
-// }
-
 const getTodosWithId = (req) => {
   return DB.posts.findByPk(req.params.userId).then((result) => {
     if (!result) {
-      console.log('Not found!')
+      throw new Error('Not Found!!')
     } else {
       return result
     }
   })
 }
 
-const deleteTodo = (req) => {
-  DB.users.destroy({
+const deleteTodo = async (req) => {
+  await DB.users.destroy({
     where: {
       id: req.params.userId
     }
   })
-  return 'Deleted'
 }
-
-// const deleteTodo = (req) => {
-//   for (let i = 0; i < todos.length; i++) {
-//     if (req.params.userId == todos[i].id);
-//     todos.splice(todos[i].id, 1)
-//     console.log(todos[i])
-//   }
-// }
 
 module.exports = {
   getTodos,

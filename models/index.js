@@ -1,5 +1,5 @@
 'use strict'
-
+require('dotenv').config()
 const fs = require('fs')
 const path = require('path')
 const Sequelize = require('sequelize')
@@ -36,7 +36,7 @@ Object.keys(db).forEach((modelName) => {
     db[modelName].associate(db)
   }
 })
-console.log('Done')
+
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 

@@ -12,35 +12,25 @@ const postUsers = async (req) => {
     city: req.body.city
   }
   user = await DB.users.create(user)
-  console.log(user)
   return user
 }
 
 const getUsersWithId = (req) => {
   return DB.users.findByPk(req.params.userId).then((result) => {
     if (!result) {
-      console.log('Not found!!!!')
+      throw new Error('Not Found!!')
     } else {
       return result
     }
   })
 }
 
-// const deleteUser = (req) => {
-//   for (let i = 0; i < users.length; i++) {
-//     if (req.params.userId == users[i].id);
-//     users.splice(users[i].id, 1)
-//   }
-//   return 'sucess'
-// }
-
-const deleteUser = (req) => {
-  DB.users.destroy({
+const deleteUser = async (req) => {
+  await DB.users.destroy({
     where: {
       id: req.params.userId
     }
   })
-  return 'Deleted'
 }
 
 module.exports = {

@@ -3,13 +3,13 @@ var router = express.Router()
 
 const {
   getPosts,
-  postPosts,
+  postPostdata,
   getPostsWithId,
   deletePosts
 } = require('./postservice')
 
 router.get('/', getPosts)
-router.post('/', postPosts)
+router.post('/', postPostdata)
 router.get('/:userId', getPostsWithId)
 router.delete('/:userId', deletePosts)
 

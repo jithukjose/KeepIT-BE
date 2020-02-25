@@ -17,12 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       completed: {
         type: DataTypes.BOOLEAN
       }
-
-      // userId: {
-      //   type: DataTypes.INTEGER,
-      //   references: 'users', // <<< Note, its table's name, not object name
-      //   referencesKey: 'id' // <<< Note, its a column name
-      // }
     },
     { timestamps: true, paranoid: true }
   )
