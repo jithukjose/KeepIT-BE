@@ -33,9 +33,45 @@ const deleteUser = async (req) => {
   })
 }
 
+const editUser = (req) => {
+  // let user = {
+  //   name: DB.name,
+  //   email: DB.email,
+  //   street: req.body.street,
+  //   city: req.body.city
+  // }
+
+  return DB.users.findByPk(req.params.userId).then((result) => {
+    console.log(result.dataValue, 'ewa')
+    if (result) {
+      return DB.users
+        .update(
+          {
+            name: req.body.name,
+            email: req.body.email,
+            street: req.body.street,
+            city: req.body.city
+          },
+          { where: { id: req.params.userId } }
+        )
+        .then(() => DB.users.findByPk(req.params.userId))
+    } else {
+      res.send(404)
+    }
+  })
+  // user = await DB.users.update(user.body)
+  // return user
+
+  // Book.update(
+  //   {title: req.body.title},
+  //   {where: req.params.bookId}
+  // )
+}
+
 module.exports = {
   getUsers,
   postUsers,
   getUsersWithId,
-  deleteUser
+  deleteUser,
+  editUser
 }
