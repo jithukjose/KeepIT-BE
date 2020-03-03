@@ -1,9 +1,10 @@
-var express = require('express')
-var router = express.Router()
+const express = require('express');
+
+const router = express.Router();
 
 /* GET Date */
-router.get('/', function(req, res, next) {
-  res.send({ Date: Date.now() })
-})
+router.get('/', (req, res, next) => {
+  res.send({ Date: Date.now() });
+});
 
-module.exports = router
+module.exports = router;

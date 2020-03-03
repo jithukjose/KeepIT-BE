@@ -18,11 +18,21 @@ module.exports = (sequelize, DataTypes) => {
       city: {
         type: DataTypes.STRING,
         allowNull: true
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false
       }
     },
-    { timestamps: true, paranoid: true }
+    {
+      timestamps: true,
+      paranoid: true,
+      defaultScope: {
+        attributes: { exclude: ['password'] }
+      }
+    }
   )
-  users.associate = function(models) {
+  users.associate = function (models) {
     // associations can be defined here
   }
   return users

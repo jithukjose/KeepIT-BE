@@ -1,20 +1,22 @@
-var express = require('express')
-var router = express.Router()
-const { validate } = require('./userValidator')
+const express = require('express');
 
-/* GET users listing. */
+const router = express.Router();
+const { validate } = require('./userValidator');
+const { auth } = require('../../middlewares/securityMiddleware')
+// const { authenticate } = require('../../middlewares/securityMiddleware')
 const {
   getUsers,
   postUsers,
   getUsersWithId,
   deleteUser,
-  editUser
-} = require('./usersService')
+  editUser,
+} = require('./usersService');
 
-router.get('/', getUsers)
-router.post('/', validate('postUserCase'), postUsers)
-router.get('/:userId', validate('getSingleUserCase'), getUsersWithId)
-router.delete('/:userId', validate('deleteUserCase'), deleteUser)
-router.put('/:userId', validate('editUserCase'), editUser)
+router.get('/', auth, getUsers);
+router.post('/', validate('postUserCase'), postUsers);
+// router.get('/:userId', authenticate, validate('getSingleUserCase'), getUsersWithId);
+router.get('/:userId', auth, validate('getSingleUserCase'), getUsersWithId);
+router.delete('/:userId', auth, validate('deleteUserCase'), deleteUser);
+router.put('/:userId', auth, validate('editUserCase'), editUser);
 
-module.exports = router
+module.exports = router;
