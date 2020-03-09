@@ -4,7 +4,7 @@ const todoRouter = require('./modules/todos/todoRouter')
 const initRouter = require('./modules/init/initRouter')
 const accountRouter = require('./modules/account/accountRouter')
 module.exports = (app) => {
-  app.use('/', initRouter)
+  app.use('/api', initRouter)
   app.use('/api/users', userRouter)
   app.use('/api/posts', postRouter)
   app.use('/api/todos', todoRouter)

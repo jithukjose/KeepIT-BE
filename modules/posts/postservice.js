@@ -17,7 +17,7 @@ const getPosts = async (req, res, next) => {
 
 const postPostdata = async (req, res, next) => {
   try {
-    const postPostsResponse = await postQueryBuilder.postPosts(req);
+    const postPostsResponse = await postQueryBuilder.postPostdata(req);
     res.status(HttpStatus.CREATED).send(postPostsResponse);
   } catch (error) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({

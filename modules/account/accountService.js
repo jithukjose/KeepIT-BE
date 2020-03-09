@@ -21,6 +21,22 @@ const login = async (req, res) => {
     }
 }
 
+const signup = async (req, res) => {
+    try {
+        const createUser = await querybulider.signup(req)
+        res.status(HttpStatus.OK).send(createUser)
+    } catch (error) {
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+            error: {
+                message: error.message,
+                code: HttpStatus.INTERNAL_SERVER_ERROR
+            }
+        })
+
+    }
+}
+
 module.exports = {
-    login
+    login,
+    signup
 }

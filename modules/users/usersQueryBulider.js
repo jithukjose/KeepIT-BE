@@ -3,9 +3,46 @@ const DB = require('../../models');
 
 var bcrypt = require('bcryptjs');
 
-// var bcrypt = dcodeIO.bcrypt;
+let limit = 5;
+let page = 1;
 
-const getUsers = async (req) => DB.users.findAll();
+const getUsers = async (req) => {
+
+  let query = {
+    limit: req.query.limit || 5,
+    page: req.query.page || 1,
+    sortKey: req.query.sortKey || 'name',
+    sortOrder: req.query.sortOrder || 'asc'
+  }
+  let users = await DB.users.findAndCountAll({
+    offset: query.limit * (query.page - 1),
+    limit: query.limit,
+    order: [[query.sortKey, query.sortOrder]]
+  })
+
+  return {
+    metaData: {
+      page: query.page,
+      perPage: query.limit,
+      totalCount: users.count,
+      totalPage: Math.ceil(users.count / query.limit),
+      sortKey: query.sortKey,
+      sortOrder: query.sortOrder,
+
+    },
+    records: users.rows
+  };
+
+  // if (req.query.pageNumber) {
+  //   pageNumb = req.query.pageNumber
+  // }
+  // else {
+  //   pageNumb = page
+  // }
+  // return DB.users.findAll({ limit: 2, offset: (limit * (pageNumb - 1)) });
+
+}
+
 
 const postUsers = async (req) => {
   var salt = bcrypt.genSaltSync(10);

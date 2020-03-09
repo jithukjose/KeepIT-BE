@@ -5,6 +5,7 @@ const {
 const userQueryBuilder = require('./usersQueryBulider');
 
 const getUsers = async (req, res, next) => {
+
   try {
     const getUsersResponse = await userQueryBuilder.getUsers(req);
     res.status(HttpStatus.OK).send(getUsersResponse);
