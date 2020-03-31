@@ -16,7 +16,7 @@ const login = async (req) => {
             throw new Error('Wrong user credentials')
 
         }
-        const token = jwt.sign({ user: user.email },
+        const token = jwt.sign({ user: user.email, userId: user.id },
             process.env.JWT_SECRET,
             {
                 expiresIn: '24h' // expires in 24 hours

@@ -18,8 +18,9 @@ const auth = (req, res, next) => {
 
             }
             else {
-                console.log("decoded", decoded);
+
                 req.decode = decoded
+
 
                 next()
             }

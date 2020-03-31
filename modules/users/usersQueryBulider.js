@@ -3,13 +3,12 @@ const DB = require('../../models');
 
 var bcrypt = require('bcryptjs');
 
-let limit = 5;
-let page = 1;
+
 
 const getUsers = async (req) => {
 
   let query = {
-    limit: req.query.limit || 5,
+    limit: req.query.limit || 10,
     page: req.query.page || 1,
     sortKey: req.query.sortKey || 'name',
     sortOrder: req.query.sortOrder || 'asc'
@@ -33,13 +32,6 @@ const getUsers = async (req) => {
     records: users.rows
   };
 
-  // if (req.query.pageNumber) {
-  //   pageNumb = req.query.pageNumber
-  // }
-  // else {
-  //   pageNumb = page
-  // }
-  // return DB.users.findAll({ limit: 2, offset: (limit * (pageNumb - 1)) });
 
 }
 
@@ -85,7 +77,7 @@ const editUser = (req) => DB.users.findByPk(req.params.userId).then((result) => 
   return result.update(
     {
       name: req.body.name,
-      email: req.body.email,
+      // email: req.body.email,
       street: req.body.street,
       city: req.body.city,
     },

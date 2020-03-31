@@ -101,31 +101,31 @@ const validate = (method) => {
           })
           .withMessage('wrong name lengh'),
 
-        body('email')
-          .exists()
-          .isEmail(),
-        param('userId')
-          .exists().custom((value) => users
-            .findOne({
-              where: {
-                email: value,
-              },
-            })
-            .then((user) => {
-              if (user) {
+        // body('email')
+        //   .exists()
+        //   .isEmail(),
+        // param('userId')
+        // .exists().custom((value) => users
+        //   .findOne({
+        //     where: {
+        //       email: value,
+        //     },
+        //   })
+        // .then((user) => {
+        //   if (user) {
 
-                throw new Error('this email is already in use');
+        //     throw new Error('this email is already in use');
 
-              }
-            }))
+        //   }
+        // }))
 
-          .custom((value) => users.findByPk(value).then((user) => {
-            if (!user) {
-              {
-                throw new Error('user does not exist!!');
-              }
-            }
-          })),
+        // .custom((value) => users.findByPk(value).then((user) => {
+        //   if (!user) {
+        //     {
+        //       throw new Error('user does not exist!!');
+        //     }
+        //   }
+        // })),
       ];
     }
     default:

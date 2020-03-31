@@ -1,8 +1,15 @@
 const DB = require('../../models');
 
-const getPosts = (req) => DB.posts.findAll();
+const getPosts = (req) => DB.posts.findAll({
+  where: {
+    userId: req.decode.userId
+  },
+
+})
+
 
 const postPostdata = async (req) => {
+  // console.log(req.decode.userId, 'here')
   const postLists = {
     userId: req.body.userId,
     title: req.body.title,
@@ -12,6 +19,8 @@ const postPostdata = async (req) => {
   return DB.posts.create(postLists);
   // return postList;
 };
+
+
 
 const getPostsWithId = (req) => DB.posts.findByPk(req.params.userId).then((result) => {
   if (!result) {
