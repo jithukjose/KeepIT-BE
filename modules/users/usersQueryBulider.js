@@ -1,79 +1,94 @@
-const users = [
-  {
-    id: 1,
-    name: 'Leanne Graham',
-    email: 'Sincere@april.biz',
-    address: {
-      street: 'Kulas Light',
-      city: 'Gwenborough'
-    }
-  },
-  {
-    id: 2,
-    name: 'Ervin Howell',
-    email: 'Shanna@melissa.tv',
-    address: {
-      street: 'Victor Plains',
-      city: 'Wisokyburgh'
-    }
-  },
-  {
-    id: 3,
-    name: 'Clementine Bauch',
-    email: 'Nathan@yesenia.net',
-    address: {
-      street: 'Douglas Extension',
-      city: 'McKenziehaven'
-    }
-  },
-  {
-    id: 4,
-    name: 'Patricia Lebsack',
-    email: 'Julianne.OConner@kory.org',
-    address: {
-      street: 'Hoeger Mall',
-      city: 'South Elvis'
-    }
-  }
-]
+const DB = require('../../models');
 
-const getUsers = (req) => {
-  return users
+
+var bcrypt = require('bcryptjs');
+
+
+
+const getUsers = async (req) => {
+
+  let query = {
+    limit: req.query.limit || 10,
+    page: req.query.page || 1,
+    sortKey: req.query.sortKey || 'name',
+    sortOrder: req.query.sortOrder || 'asc'
+  }
+  let users = await DB.users.findAndCountAll({
+    offset: query.limit * (query.page - 1),
+    limit: query.limit,
+    order: [[query.sortKey, query.sortOrder]]
+  })
+
+  return {
+    metaData: {
+      page: query.page,
+      perPage: query.limit,
+      totalCount: users.count,
+      totalPage: Math.ceil(users.count / query.limit),
+      sortKey: query.sortKey,
+      sortOrder: query.sortOrder,
+
+    },
+    records: users.rows
+  };
+
+
 }
 
-const postUsers = (req) => {
-  const userList = {
-    id: users.length + 1,
+
+const postUsers = async (req) => {
+  var salt = bcrypt.genSaltSync(10);
+  var hash = bcrypt.hashSync(req.body.password, salt);
+
+  let user = {
     name: req.body.name,
+    password: hash,
     email: req.body.email,
-    address: {
-      street: req.body.address.street,
-      city: req.body.address.city
-    }
-  }
-  users.push(userList)
-  return userList
-}
+    street: req.body.street,
+    city: req.body.city,
+  };
 
-const getUsersWithId = (req) => {
-  for (let i = 0; i < users.length; i++) {
-    if (req.params.userId == users[i].id) {
-      return users[i]
-    }
-  }
-}
+  user = await DB.users.create(user).then((dbUser) => {
+    return DB.users.findByPk(dbUser.id)
+  });
+  return user;
+};
 
-const deleteUser = (req) => {
-  for (let i = 0; i < users.length; i++) {
-    if (req.params.userId == users[i].id);
-    users.splice(users[i].id, 1)
+const getUsersWithId = (req) => DB.users.findByPk(req.params.userId).then((result) => {
+  if (!result) {
+    throw new Error('Not Found!!');
+  } else {
+    return result;
   }
-  return 'sucess'
-}
+});
+
+const deleteUser = async (req) => {
+  await DB.users.destroy({
+    where: {
+      id: req.params.userId,
+    },
+  });
+};
+
+const editUser = (req) => DB.users.findByPk(req.params.userId).then((result) => {
+  if (!result) {
+    throw new Error('Not FOund');
+  }
+  return result.update(
+    {
+      name: req.body.name,
+      // email: req.body.email,
+      street: req.body.street,
+      city: req.body.city,
+    },
+    // { returning: true }
+  );
+});
 
 module.exports = {
   getUsers,
   postUsers,
   getUsersWithId,
-  deleteUser
-}
+  deleteUser,
+  editUser,
+};
