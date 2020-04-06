@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     { timestamps: true, paranoid: true }
   )
-  posts.associate = function(models) {
+  posts.associate = function (models) {
     // associations can be defined here
   }
   return posts
